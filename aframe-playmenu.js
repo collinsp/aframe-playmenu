@@ -55,10 +55,7 @@ AFRAME.registerComponent('playmenu', {
       //console.log('you clicked set speed', evt2.detail.playSpeed);
     });
     document.getElementById('ResetBut').addEventListener('click', evt => {
-      this.el.sceneEl.dispatchEvent(new CustomEvent('pauseFrame'))
       this.el.sceneEl.dispatchEvent(new CustomEvent('resetView'))
-      this.el.sceneEl.dispatchEvent(new CustomEvent('restart'))
-      this.el.sceneEl.dispatchEvent(new CustomEvent('setPlaySpeed', { detail: { weight: 5 } }))
       //console.log('you clicked reset');
     });
   },
