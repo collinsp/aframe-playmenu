@@ -47,16 +47,17 @@ AFRAME.registerComponent('playmenu', {
       //console.log('dispatched playPause on: ', this.el.sceneEl)
     });
     document.getElementById('PlayBar').addEventListener('click', evt => {
-      const rangeMin = -.63
-      const rangeMax = .87
       if (! (evt.detail.intersection && evt.detail.intersection.point && evt.detail.intersection.point.x != undefined)) return;
       const clickAt = evt.detail.intersection.point.x
+      //console.log('clickAt: ', clickAt)   // if playbar location changes, use this to get new range
+      const rangeMin = -.16 
+      const rangeMax = .13
       let weight = ((clickAt - rangeMin) / (rangeMax - rangeMin)).toFixed(2);
       if (weight < 0) weight=0
       else if (weight > 1) weight=1
       const newEvent = new CustomEvent('setPlayTime', { detail: { weight: weight } })
       this.el.sceneEl.dispatchEvent(newEvent)
-      //console.log('setPlayTime detail.weight: ', newEvent.detail.weight)
+      console.log('setPlayTime detail.weight: ', newEvent.detail.weight, ' range: ', rangeMin, ' ', rangeMax)
     });
     document.getElementById('RewindBut').addEventListener('click', evt => {
       this.el.sceneEl.dispatchEvent(new CustomEvent('previousFrame'))
