@@ -1,8 +1,5 @@
 AFRAME.registerComponent('playmenu', {
   init: function(){
-    // do not initialize this component on smaller screens
-    //if (window.innerWidth < 1000) return
-
     this.el.innerHTML = `
 <a-plane id=VideoControls scale=".2 .2 .2" position="0 -.38 -.5" rotation="0 0 0" width="2.1" height=".4" color="#000000" material="shader:flat">
 
@@ -29,12 +26,37 @@ AFRAME.registerComponent('playmenu', {
 <a-plane position=".9 -.084 .01" color="#888888" width=".1" height=".1" class=clickable id=InfoBut material="shader:flat" src="url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMQAAADECAAAAADlzdG3AAAFe0lEQVR42u2dT0hbSRjAv3WFDULxRWSLvSQQaRf2kCBikBY2q9mih7AHb4IoZU+LgmAteIrdW9pDD3v04nYv1V7EHDzYYgr2oCzriiwVarDxsBoJJj1VQZg9FVrbvMx88+d9Hed3fInfez+/eS8z8977BsDhcDgcDofD4XA4HA6Hw0GMrzTFjcRiEc8Le2EvDNVatVat1UrFYulLkfj2p55YrLP5s5+d7xWLm6vHtCW+uXVrMNnwWxsr6+tnRCUimdSPbZzfPVkr5Evkzq3WkcV3TIh3iyOtpBQyc0cMwdFchoqBN7nF0GxNegQUotl9JsV+NhqwQuJRlUlTfZQIUKE9xxSRaw/K4c4uU8bunUAUbi4xpSzdNK7QkmPKybWYdeh6wTTwosukw3CZaaE8bM7hPtPGfUMK1xaYRhaumXDo3WZa2e7V7zBUYZqpDOl2GGMGGNPrMMGMMKHTYYYZYkafwzgzxrguhwFmkAE9DilmlJQOhyQzTJL70Jp4vxh/arqj/DSuvK+xzYyzrboHssACYIHz4L7m7Lf+GsTg8fumgsrxg8S/89UriT9WOL7owo6BDqb6PACvb+oAO0pSNtZrwY5Fn1x5H+LKE+yIVdW4GzsncP3DINexsweK5maQu7/9cZjbyDBqZnKQ80uPL8Z5jJyPUjLPh/wP9lwM1IMMpGBusB05V7nzaagd5Axnw3nahn2n6Rs4+X+5NvFwY1pWInEPmcG/uTZxcS8hKTGKbYabXJv4GJWTiKInHhJcmzinWKJSEqPoO2pxrk2cdwVHZS5NHv5+3Nan0fD3J/dl7k5OSnRA+y4G65MINikhIXFvl728GOylRLAtvENGalw29XGwKalg+Lv2c3Kjy6sfxroqF2sO69B6JLdjdjf0PlTormSoI+xzICPy8xXTg20AbYPT8nMlI0iJRSVTFq9fKwmz6HOgPs87RXZDQIfT70qYX+wMJQcIZVDdjn4gRT+mOYUOPVIStY5T8UykaTmAl0Y0J2Ktye+A6kukqEmkxM+Jjv+Q+5oV/oD79sJhnQ+a654S6H3VeTwjK52K9J+izakbyNEtfE7E6EnELqdEJz2JTlGJSDM9ieaIoATB1lT/oKyWiFCUEG1OHkUJz2aJehehMH5X2cZdECRhQQl8JmZV9vnkmlOYYnMKX8YT24pMfFHUk6hSPNiqoESNokTNZcJlwmVCKhNWSJQoSpQEJYoUJYqXUaJ0Ts/hXLQ5wR49iT3RvhPF9lS8nBKb9CQ2hSVW6UmsCkscb1Bz2DgWloAVahIrIC6xTk1iHSNxQsvhBCNxtkZLYu0MIQEFWhI+h+MjkT+l5HCaR0mU8pQk/MpB+U2e0ZIAnMRymY5DeRkp8ZZQKvJvfT70vdO7/IvgrmZFPpwVibyM9xd9zFoouLrHrP1nxf+g0ppkDkT01QNdmWjw6oF/JmrzNBIxLzWXF61SyEQ1ChKZgDckUjH/Ru7vExQyIV2cLhe8hPyLwEKvbWqRUPDaZuVB0GfEg4qCIEvBZoLjVWaOp+Qe/sx9XFkNiXioJoyGkn/GX+/HF1pQURpQWYHDrnJQDmWF5Q2Hg5LgKz7CVwZmp+mHQK6uv/2uNBzpgjy8WFEaCXorph0qGkozDpmW0FKYccysw5iea8WESQdtRRlnzDnYUJJxXOevj6GijAN6f0ONlGVM6e4JJA90Kxwk9fdn4rrLD8fBADYUggYrSnKDHcXR7ShTb8eCAWDF0g0AViyiAXYsZwJWLCwDYMUSPwBWLLYEADYsewUAAS9ApnQpuP4Ub9uoFZ4rXApO7aJ8oXR/qvGV5p/C82dKHwhTvzxiR7rbd3nEv54dqt6lFQtVOhwOh8PhcDgcDofD4XA4yPE/9+qQhpn5hYMAAAAASUVORK5CYII=)"></a-plane>
 </a-plane>`
     this.el.sceneEl.addEventListener('enter-vr', () => {
+
+      const playmenu = document.querySelector('[playmenu]')
+      if (! playmenu) {
+        console.log('WARNING: could not find [playmenu] element')
+        return;
+      }
+      const rig = document.querySelector('#rig')
+      if (! rig) rig = document.querySelector('[movement-controls]')
+      if (! rig) {
+        console.log('WARNING: could not find #rig or [movement-controls] element to attach video controls')
+        return;
+      }
+      if (playmenu.parentEl != rig) rig.appendChild(playmenu)
+
       const e = document.getElementById('VideoControls')
       e.setAttribute('position', '.12 -.1, -.5')
       e.setAttribute('scale', '1 1 1')
       e.setAttribute('rotation', '-30 0 0')
     })
     this.el.sceneEl.addEventListener('exit-vr', () => {
+      const playmenu = document.querySelector('[playmenu]')
+      if (! playmenu) {
+        console.log('WARNING: could not find [playmenu] element')
+        return;
+      }
+      const cam = document.querySelector('[camera]')
+      if (! cam) {
+        console.log('WARNING: could not find [camera] element to attach video controls')
+        return;
+      }
+      if (playmenu.parentEl != cam) cam.appendChild(playmenu)
       const e = document.getElementById('VideoControls')
       e.setAttribute('position', '0 -.38 -.5')
       e.setAttribute('scale', '.2 .2 .2')
