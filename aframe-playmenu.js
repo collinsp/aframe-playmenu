@@ -63,10 +63,14 @@ AFRAME.registerComponent('playmenu', {
       e.setAttribute('rotation', '0 0 0')
     })
     document.getElementById('PlayBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('playPause'))
       //console.log('dispatched playPause on: ', this.el.sceneEl)
     });
     document.getElementById('PlayBar').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       if (! (evt.detail.intersection && evt.detail.intersection.point && evt.detail.intersection.point.x != undefined)) return;
       const pb = document.getElementById('PlayBar')
       const pbWidth = parseFloat(pb.getAttribute('width'))
@@ -84,30 +88,47 @@ AFRAME.registerComponent('playmenu', {
       //console.log('setPlayTime detail.weight: ', newEvent.detail.weight, ' range: ', rangeMin, ' ', rangeMax)
     });
     document.getElementById('RewindBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('previousFrame'))
       //console.log('you clicked rewind');
     });
     document.getElementById('ForwardBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('nextFrame'))
       //console.log('you clicked forward');
     });
     document.getElementById('ResetBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('resetView'))
       //console.log('you clicked reset');
     });
     document.getElementById('IncreasePlaySpeedBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('increasePlaySpeed'))
     })
     document.getElementById('DecreasePlaySpeedBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('decreasePlaySpeed'))
     })
     document.getElementById('PrevStyleBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('prevStyle'))
     })
     document.getElementById('NextStyleBut').addEventListener('click', evt => {
+      evt.preventDefault()
+      evt.stopPropagation()
       this.el.sceneEl.dispatchEvent(new CustomEvent('nextStyle'))
     })
-    this.el.sceneEl.addEventListener('updatePlayTime', evt => this.playTime = evt.detail.weight)
+    this.el.sceneEl.addEventListener('updatePlayTime', evt => {
+      evt.stopPropagation()
+      this.playTime = evt.detail.weight
+    })
   },
   remove: function() {
     this.el.innerHTML = ''
